@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">  
+            
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+    
+    <context-param>
+    	<param-name>primefaces.THEME</param-name>
+    	<param-value>bootstrap</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener>
+    
+    <!-- Apache Shiro Security related listener -->
+<!--     <listener>
+    	<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+    </listener> -->
+    
+    <!-- Authentication Filter -->
+    <filter>
+    	<filter-name>ShiroFilter</filter-name>
+    	<filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+    	<filter-name>ShiroFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    	<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+    	<dispatcher>INCLUDE</dispatcher>
+    	<dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    
+</web-app>

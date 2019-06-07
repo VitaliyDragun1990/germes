@@ -1,0 +1,26 @@
+{
+  "name": "bower-js",
+  "homepage": "https://github.com/VitaliyDragun1990/germes",
+  "authors": [
+    "Vitaliy Dragun <vdrag00n90@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.6.3",
+    "angular-resource": "1.6.3",
+    "angular-mocks": "1.6.3"
+  },
+  "devDependencies": {
+    "angular-translate": "2.15.1",
+    "angular-translate-loader-static-files": "2.15.1"
+  }
+}

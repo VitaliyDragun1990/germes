@@ -1,0 +1,160 @@
+package org.itsimulator.germes.app.model.entity.geography;
+
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.StringUtils;
+import org.itsimulator.germes.app.model.entity.base.AbstractEntity;
+import org.itsimulator.germes.app.model.entity.transport.TransportType;
+import org.itsimulator.germes.app.model.search.criteria.StationCriteria;
+
+/**
+ * Station where passengers can get off or take specific kind of transport.
+ * Multiple stations compose route of the trip.
+ * 
+ * @author Vitaly Dragun
+ *
+ */
+@Table(name = "STATION")
+@Entity
+@NamedQuery(name = Station.QUERY_DELETE_ALL, query = "delete from Station")
+public class Station extends AbstractEntity {
+	
+	public static final String FIELD_TRANSPORT_TYPE = "transportType";
+	public static final String FIELD_CITY = "city";
+	public static final String QUERY_DELETE_ALL = "deleteStations";
+
+	private City city;
+
+	private Address address;
+
+	/**
+	 * (Optional) Phone of the inquiry office
+	 */
+	private String phone;
+
+	private Coordinate coordinate;
+
+	private TransportType transportType;
+
+	/**
+	 * You shouldn't create station directly. Use {@link City} functionality
+	 * instead.
+	 */
+	public Station(final City city, final TransportType transportType) {
+		this.city = Objects.requireNonNull(city);
+		this.transportType = Objects.requireNonNull(transportType);
+	}
+	
+	public Station() {}
+
+	public boolean match(final StationCriteria criteria) {
+		Objects.requireNonNull(criteria, "Station criteria is not initialized");
+
+		if (!StringUtils.isEmpty(criteria.getName()) && !city.getName().equals(criteria.getName())) {
+			return false;
+		}
+
+		if (criteria.getTransportType() != null && transportType != criteria.getTransportType()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+	@JoinColumn(name = "CITY_ID")
+	public City getCity() {
+		return city;
+	}
+	
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	@Embedded
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	@Size(max = 16)
+	@Column(name = "PHONE", length = 16)
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@Embedded
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+	public void setCoordinate(Coordinate coordinate) {
+		this.coordinate = coordinate;
+	}
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "TRANSPORT_TYPE", nullable = false)
+	public TransportType getTransportType() {
+		return transportType;
+	}
+	
+	public void setTransportType(TransportType transportType) {
+		this.transportType = transportType;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((transportType == null) ? 0 : transportType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Station other = (Station) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address)) {
+			return false;
+		}
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city)) {
+			return false;
+		}
+		return transportType == other.transportType;
+	}
+
+}

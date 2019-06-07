@@ -1,0 +1,45 @@
+plugins {
+    id 'io.franzbecker.gradle-lombok'
+}
+apply plugin: 'war'
+//apply plugin: 'org.gretty'
+apply from: 'https://raw.github.com/gretty-gradle-plugin/gretty/master/pluginScripts/gretty.plugin'
+
+repositories {
+       maven { url "http://repository.primefaces.org" }
+}
+
+dependencies {
+    compile project(':germes-service')
+    
+    compile ui.primefaces, misc.cdiAPI, ui.jsfAPI, security.shiroCore, security.shiroWeb, ui.weldServlet, misc.lombok
+    compile 'org.primefaces.themes:bootstrap:1.0.10'
+    providedCompile ui.servletAPI
+    //runtime misc.cdiAPI
+    runtime tests.h2, log.commonsLogging
+    testCompile tests.junit, tests.assertj
+    
+    testCompile('org.jglue.cdi-unit:cdi-unit:3.1.4') { exclude group:'org.jboss.weld.se' }
+    testCompile 'org.jboss.weld.se:weld-se-core:2.4.1.Final'    
+    testCompile 'org.mockito:mockito-all:1.10.19'
+}
+
+// gradle appRun | appRunWar
+gretty {
+	//servletContainer = 'tomcat8'
+	servletContainer = 'jetty9.3'
+	contextPath = ''
+}
+
+processResources {
+
+  doFirst {
+      ant.native2ascii(
+         src   : project.file('src/main/resources/txt'),
+         dest  : project.file('src/main/resources/ui') 
+      )
+   }
+    exclude('txt')
+}
+
+description = 'Germes: UI Admin Module'

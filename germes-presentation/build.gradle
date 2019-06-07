@@ -1,0 +1,42 @@
+plugins {
+   // id 'com.craigburke.karma' version '1.4.4'
+}
+
+apply plugin: 'war'
+//apply plugin: 'org.gretty'
+apply from: 'https://raw.github.com/gretty-gradle-plugin/gretty/master/pluginScripts/gretty.plugin'
+
+dependencies {
+    compile project(':germes-service')
+    
+    runtime tests.h2
+}
+
+/*karma {
+	basePath = '../src/main/webapp'
+	colors = true
+	logLevel = 'INFO'
+	profile = 'default'
+	browser = ['Chrome']
+	frameworks = ['jasmine']
+	reporters = ['progress']
+	profile('default') {
+		libraryBases = ['bower_components/']
+		libraryFiles = ['angular/angular.js', 'angular-mocks/angular-mocks.js', 'angular-resource/angular-resource.js',
+			 'angular-translate/angular-translate.js', 'angular-translate-loader-static-files/angular-translate-loader-static-files.js']
+		sourceBases = ['js/']
+		sourceFiles = ['*.js']
+		testBases = ['test/unit/']
+		testFiles = ['*.js']
+	}
+}*/
+
+// gradle appRun | appRunWar
+gretty {
+	servletContainer = 'tomcat8'
+	//servletContainer = 'jetty9.4'
+	contextPath = '/'
+}
+
+description = 'Germes: Presentation Logic Module'
+//karmaRun.dependsOn test

@@ -1,0 +1,154 @@
+ 
+ plugins {
+  id "com.gradle.build-scan" version "2.0.2"
+  id "io.spring.dependency-management" version "1.0.6.RELEASE"
+  id 'io.franzbecker.gradle-lombok' version '2.0'
+  id 'java'
+ // id "org.gretty" version "2.3.1"
+}
+
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+
+    group = 'org.it-simulator'
+    version = '0.2.5'
+    
+    ext {
+    	guavaVersion = '20.0'
+    	jerseyVersion = '2.22.1'
+    	commonsLangVersion = '3.8.1'
+    	log4jVersion = '2.8.2'
+    	slf4jVersion = '1.7.25'
+    	junitVersion = '4.12'
+    	assertjVersion = '3.9.0'
+    	//mockitoVersion = '2.23.0'
+    	powermockVersion = '2.0.0'
+    	jmockitVersion = '1.33'
+    	hibernateVersion = '5.2.6.Final'
+    	javaxInjectVersion = '2.4.0-b31'
+    	h2Version = '1.4.197'
+    	sqliteVersion = '3.25.2'
+    	hsqldbVersion = '2.3.3'
+    	derbyVersion = '10.12.1.1'
+    	reflectionsVersion = '0.9.11'
+    	validatorVersion = '5.4.0.Final'
+    	elVersion = '3.0.1-b09'
+    	mysqlVersion = '5.1.47'
+    	swaggerVersion = '1.5.10'
+    	primefacesVersion = '6.0'
+    	facesVersion = '2.2.14'
+    	servletVersion = '3.1.0'
+    	cdiVersion = '1.2'
+    	weldVersion = '2.4.1.Final'
+    	injectVersion = '1'
+    	cdiUnitVersion = '3.1.4'
+    	mockitoVersion = '1.9.5'
+    	shiroVersion = '1.4.0'
+    	commonsLoggingVersion = '1.2'
+    	lombokVersion = '1.18.4'
+    	
+    	misc = [
+    			guava		 : "com.google.guava:guava:$guavaVersion",
+    			commonsLang3 : "org.apache.commons:commons-lang3:$commonsLangVersion",
+    			javaxInject	 : "org.glassfish.hk2.external:javax.inject:$javaxInjectVersion",
+    			reflections	 : "org.reflections:reflections:$reflectionsVersion",
+    			validator	 : "org.hibernate:hibernate-validator:$validatorVersion",
+    			el			 : "org.glassfish:javax.el:$elVersion",
+    			swagger		 : "io.swagger:swagger-jersey2-jaxrs:$swaggerVersion",
+    			cdiAPI		 : "javax.enterprise:cdi-api:$cdiVersion",
+    			inject		 : "javax.inject:javax.inject:$injectVersion",
+    			lombok		 : "org.projectlombok:lombok:$lombokVersion"
+    	]
+    	
+    	server = [
+    			jerseyBOM			: "org.glassfish.jersey:jersey-bom:$jerseyVersion",
+    			jerseyServlet		: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+    			jerseyJson			: "org.glassfish.jersey.media:jersey-media-json-jackson:$jerseyVersion",
+    			jerseyHttp			: "org.glassfish.jersey.containers:jersey-container-grizzly2-http:$jerseyVersion"
+    	]
+    	
+    	log = [
+    			slf4jApi		: "org.slf4j:slf4j-api:$slf4jVersion",
+    			log4jSlf4j		: "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion",
+    			log4jApi		: "org.apache.logging.log4j:log4j-api:$log4jVersion",
+    			log4jCore		: "org.apache.logging.log4j:log4j-core:$log4jVersion",
+    			log4jWeb		: "org.apache.logging.log4j:log4j-web:$log4jVersion",
+    			commonsLogging  : "commons-logging:commons-logging:$commonsLoggingVersion"
+    	]
+    	
+    	persistence = [
+    			hibernateCore			: "org.hibernate:hibernate-core:$hibernateVersion",
+    			hibernateTools			: "org.hibernate:hibernate-tools:$hibernateVersion",
+    			hibernateSqliteDialect	: "com.github.gwenn:sqlite-dialect:0.1.0",
+    			//c3p0					: "org.hibernate:hibernate-c3p0:$hibernateVersion",
+    			mysql					: "mysql:mysql-connector-java:$mysqlVersion",
+    			hikariCP				: "org.hibernate:hibernate-hikaricp:$hibernateVersion"
+    	]
+    	
+    	ui = [
+    			primefaces	: "org.primefaces:primefaces:$primefacesVersion",
+    			jsf			: "org.glassfish:javax.faces:$facesVersion",
+    			jsfAPI		: "com.sun.faces:jsf-api:$facesVersion",
+    			servletAPI	: "javax.servlet:javax.servlet-api:$servletVersion",
+    			weldServlet	: "org.jboss.weld.servlet:weld-servlet:$weldVersion"
+    	]
+    	
+    	security = [
+    			shiroCore	: "org.apache.shiro:shiro-core:$shiroVersion",
+    			shiroWeb	: "org.apache.shiro:shiro-web:$shiroVersion"
+    	]
+    	
+    	tests = [
+    			jerseyTestCore		: "org.glassfish.jersey.test-framework:jersey-test-framework-core:$jerseyVersion",
+    			jerseyTestProvider	: "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
+    			junit				: "junit:junit:$junitVersion",
+    			assertj				: "org.assertj:assertj-core:$assertjVersion",
+    			//mockito				: "org.mockito:mockito-core:$mockitoVersion",
+    			powermockJunit4		: "org.powermock:powermock-module-junit4:$powermockVersion",
+    			powermockMockito2	: "org.powermock:powermock-api-mockito2:$powermockVersion",
+    			jmockit				: "org.jmockit:jmockit:$jmockitVersion",
+    			h2					: "com.h2database:h2:$h2Version",
+    			sqlite				: "org.xerial:sqlite-jdbc:$sqliteVersion",
+    			derby				: "org.apache.derby:derby:$derbyVersion",
+    			hsqldb				: "org.hsqldb:hsqldb:$hsqldbVersion",
+    			cdiUnit				: "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion",
+    			mockito				: "org.mockito:mockito-all:$mockitoVersion"
+    	]
+    	
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    
+    // Make sure transitive project dependencies are resolved
+    configurations.compile.transitive = true
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    
+    dependencyManagement {
+    	dependencies {
+       		 dependency 'org.jboss.logging:jboss-logging:3.3.2.Final'
+    	}
+	}
+
+    dependencies {
+    	compile misc.commonsLang3, log.slf4jApi, log.log4jSlf4j, log.log4jApi, log.log4jCore, misc.lombok
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+}
+
+eclipse { 
+	classpath { 
+		downloadSources=true
+}}
