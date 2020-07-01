@@ -30,7 +30,7 @@
 		<derby.version>10.12.1.1</derby.version>
 		<reflections.version>0.9.11</reflections.version>
 		<el.version>3.0.1-b09</el.version>
-		<mysql.version>5.1.47</mysql.version>
+		<mysql.version>8.0.16</mysql.version>
 		<swagger.version>1.5.12</swagger.version>
 		<primefaces.version>6.0</primefaces.version>
 		<jsf.version>2.2.14</jsf.version>
