@@ -22,7 +22,7 @@
 		<assertj.version>3.9.0</assertj.version>
 		<powermock.version>2.0.0</powermock.version>
 		<jmockit.version>1.33</jmockit.version>
-		<hibernate.version>5.2.6.Final</hibernate.version>
+		<hibernate.version>5.3.20.Final</hibernate.version>
 		<validator.version>5.4.0.Final</validator.version>
 		<h2.version>1.4.197</h2.version>
 		<sqlite.version>3.25.2</sqlite.version>
